@@ -4,13 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Batalla de pokemones</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="cart">
-        <div id="container">
-            <button id="btn">Cargar pokemon</button>
+
+    <!-- Flash overlay para la animación de batalla -->
+    <div id="flash-overlay"></div>
+
+    <h1>Batalla Pokémon</h1>
+
+    <div class="equipos-wrapper">
+
+        <!-- equipo 1 -->
+        <div class="cart">
+            <h2>Jugador 1</h2>
+            <input type="number" id="cantidad1" placeholder="Cantidad de pokémon" min="1" max="6">
+            <button id="generar1">Generar inputs</button>
+            <div id="inputs1"></div>
+            <button id="btn1">Cargar equipo</button>
+            <div id="container1"></div>
         </div>
+
+        <!-- equipo 2 -->
+        <div class="cart">
+            <h2>Jugador 2</h2>
+            <input type="number" id="cantidad2" placeholder="Cantidad de pokémon" min="1" max="6">
+            <button id="generar2">Generar inputs</button>
+            <div id="inputs2"></div>
+            <button id="btn2">Cargar equipo</button>
+            <div id="container2"></div>
+        </div>
+
     </div>
+
+    <div class="acciones">
+        <button id="resultado"> Ver resultado</button>
+        <button id="clear"> Limpiar</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script src="./script.js"></script>
 </body>
-<script src="./script.js"></script>
 </html>

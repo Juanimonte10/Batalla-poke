@@ -1,0 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;900&display=swap');
+
+/* =====================
+   VARIABLES & RESET
+   ===================== */
+:root {
+  --rojo: #CC0000;
+  --rojo-oscuro: #990000;
+  --amarillo: #FFCB05;
+  --amarillo-oscuro: #C5A100;
+  --azul: #3B4CCA;
+  --azul-oscuro: #2a357a;
+  --blanco: #F8F8F8;
+  --gris-claro: #E8E8E8;
+  --gris: #A0A0A0;
+  --negro: #1a1a1a;
+  --sombra: 0 4px 15px rgba(0,0,0,0.25);
+  --radio: 16px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #1a1a2e;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(204,0,0,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(59,76,202,0.15) 0%, transparent 50%);
+  min-height: 100vh;
+  padding: 30px 20px;
+  color: var(--negro);
+}
+
+/* =====================
+   KEYFRAMES
+   ===================== */
+
+/* Cards aparecen desde abajo con rebote */
+@keyframes aparecer {
+  0%   { opacity: 0; transform: translateY(30px) scale(0.85); }
+  70%  { transform: translateY(-6px) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Totales entran con rebote */
+@keyframes subirRebote {
+  0%   { opacity: 0; transform: translateY(40px); }
+  60%  { opacity: 1; transform: translateY(-8px); }
+  80%  { transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Título pop al cargar */
+@keyframes tituloPop {
+  0%   { opacity: 0; transform: scale(0.7); }
+  70%  { transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Resultado tabla entra */
+@keyframes resultadoEntrada {
+  from { opacity: 0; transform: scale(0.8) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Ganador parpadea */
+@keyframes parpadeoGanador {
+  0%, 100% { opacity: 1; text-shadow: 3px 3px 0 var(--amarillo-oscuro), 0 0 30px rgba(255,203,5,0.8); }
+  50%       { opacity: 0.6; text-shadow: 3px 3px 0 var(--amarillo-oscuro), 0 0 60px rgba(255,203,5,1); }
+}
+
+/* Sprite flota */
+@keyframes flotar {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+/* Inputs aparecen deslizando */
+@keyframes inputSlide {
+  from { opacity: 0; transform: translateX(-15px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Flash blanco al iniciar batalla */
+@keyframes flashOverlay {
+  0%   { opacity: 0; }
+  30%  { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+/* =====================
+   TÍTULO
+   ===================== */
+h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(12px, 2.5vw, 20px);
+  color: var(--amarillo);
+  text-align: center;
+  text-shadow: 3px 3px 0 var(--amarillo-oscuro), 0 0 30px rgba(255,203,5,0.5);
+  margin-bottom: 36px;
+  letter-spacing: 2px;
+  animation: tituloPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* =====================
+   LAYOUT DOS EQUIPOS
+   ===================== */
+.equipos-wrapper {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =====================
+   CART
+   ===================== */
+.cart {
+  flex: 1;
+  min-width: 300px;
+  max-width: 520px;
+  background: var(--blanco);
+  border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow:
+    0 0 0 4px var(--rojo),
+    0 0 0 8px var(--amarillo),
+    0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.cart::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 10px;
+  background: linear-gradient(90deg, var(--rojo) 60%, var(--amarillo) 60%);
+}
+
+.cart h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: var(--rojo);
+  text-align: center;
+  margin: 8px 0 20px;
+  text-shadow: 1px 1px 0 var(--rojo-oscuro);
+}
+
+/* =====================
+   INPUTS DE CANTIDAD
+   ===================== */
+input[type="number"] {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 10px 14px;
+  border: 3px solid var(--rojo);
+  border-radius: var(--radio);
+  background: var(--gris-claro);
+  color: var(--negro);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="number"]:focus {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(59,76,202,0.25);
+}
+
+input[type="number"]::placeholder {
+  color: var(--gris);
+  font-size: 13px;
+}
+
+#cantidad1, #cantidad2 {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+/* =====================
+   BOTONES
+   ===================== */
+button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+  letter-spacing: 0.5px;
+  margin: 6px 4px;
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: none !important;
+}
+
+#generar1, #generar2 {
+  background: var(--azul);
+  color: var(--amarillo);
+  box-shadow: 0 5px 0 var(--azul-oscuro), var(--sombra);
+  width: 100%;
+}
+#generar1:hover, #generar2:hover { background: #4a5edb; }
+
+#btn1, #btn2 {
+  background: var(--rojo);
+  color: var(--blanco);
+  box-shadow: 0 5px 0 var(--rojo-oscuro), var(--sombra);
+  width: 100%;
+}
+#btn1:hover, #btn2:hover { background: #dd1111; }
+
+/* =====================
+   ACCIONES
+   ===================== */
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 28px auto 0;
+  flex-wrap: wrap;
+}
+
+#resultado {
+  background: var(--amarillo);
+  color: var(--negro);
+  box-shadow: 0 5px 0 var(--amarillo-oscuro), var(--sombra);
+  font-size: 10px;
+  padding: 14px 28px;
+}
+#resultado:hover { background: #ffd700; }
+
+#clear {
+  background: #555;
+  color: var(--blanco);
+  box-shadow: 0 5px 0 #333, var(--sombra);
+  font-size: 10px;
+  padding: 14px 28px;
+}
+#clear:hover { background: #777; }
+
+/* =====================
+   INPUTS DINÁMICOS DE POKÉMON
+   ===================== */
+#inputs1, #inputs2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+#inputs1 input, #inputs2 input {
+  border: 2px solid var(--amarillo-oscuro);
+  background: #fffbea;
+  width: 130px;
+  border-radius: 12px;
+  font-size: 14px;
+  opacity: 0; /* empieza invisible, JS le agrega la clase */
+}
+
+#inputs1 input:focus, #inputs2 input:focus {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(204,0,0,0.2);
+}
+
+.input-animado {
+  animation: inputSlide 0.3s ease forwards;
+}
+
+/* =====================
+   CONTENEDORES DE POKÉMON
+   ===================== */
+#container1, #container2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+/* =====================
+   CARD DE POKÉMON
+   ===================== */
+.poke-card {
+  background: linear-gradient(145deg, #fff 60%, var(--gris-claro));
+  border: 3px solid var(--amarillo);
+  border-radius: 20px;
+  padding: 16px 12px;
+  text-align: center;
+  width: 148px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0; /* empieza invisible, JS le agrega la clase */
+}
+
+.poke-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+}
+
+.poke-card img {
+  width: 90px;
+  height: 90px;
+  image-rendering: pixelated;
+  filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.2));
+  animation: flotar 2.5s ease-in-out infinite;
+}
+
+.poke-card strong {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--rojo);
+  display: block;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.poke-card p {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--negro);
+  margin: 4px 0;
+  text-transform: capitalize;
+}
+
+.card-animada {
+  animation: aparecer 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* =====================
+   TOTALES DEL EQUIPO
+   ===================== */
+.totales {
+  width: 100%;
+  background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-oscuro) 100%);
+  color: var(--blanco);
+  border-radius: 20px;
+  padding: 20px 24px;
+  margin-top: 8px;
+  box-shadow: var(--sombra);
+  opacity: 0; /* empieza invisible */
+}
+
+.totales-animado {
+  animation: subirRebote 0.6s ease forwards;
+}
+
+.totales h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--amarillo);
+  margin-bottom: 14px;
+  text-align: center;
+  text-shadow: 1px 1px 0 var(--amarillo-oscuro);
+}
+
+.totales p {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 6px 0;
+  color: var(--blanco);
+}
+
+/* =====================
+   FLASH DE BATALLA
+   ===================== */
+#flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: white;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 999;
+}
+
+#flash-overlay.flash-activo {
+  animation: flashOverlay 0.6s ease forwards;
+}
+
+/* =====================
+   RESULTADOS
+   ===================== */
+#results {
+  max-width: 600px;
+  margin: 24px auto 0;
+  text-align: center;
+  font-weight: 700;
+  color: var(--blanco);
+}
+
+#results h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: var(--amarillo);
+  text-shadow: 2px 2px 0 var(--amarillo-oscuro);
+  margin-bottom: 20px;
+  animation: parpadeoGanador 1.2s ease-in-out infinite;
+}
+
+#results table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--blanco);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  color: var(--negro);
+  animation: resultadoEntrada 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+#results th {
+  background: var(--rojo);
+  color: var(--amarillo);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  padding: 14px 10px;
+  text-transform: uppercase;
+}
+
+#results td {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--gris-claro);
+}
+
+#results tr:last-child td { border-bottom: none; }
+#results tr:nth-child(even) td { background: #f5f5f5; }
+
+/* =====================
+   SCROLLBAR CUSTOM
+   ===================== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--gris-claro); }
+::-webkit-scrollbar-thumb { background: var(--rojo); border-radius: 4px; }
